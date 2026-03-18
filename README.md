@@ -1,0 +1,18 @@
+# Tec Second Semester Portfolio
+
+Academic portfolio from the **second semester of Ingeniería en Tecnologías Computacionales**
+at Tecnológico de Monterrey.
+
+This repository includes more advanced projects focused on:
+
+- MATLAB modeling and simulation
+- C++ programming
+- Python development
+
+## Projects
+- MATLAB Product Design Modeling
+- Advanced C++ projects
+- Python problem solving
+
+## Author
+Sebastián Noriega Olavarrieta
