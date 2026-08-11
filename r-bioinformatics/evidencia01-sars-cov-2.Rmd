@@ -1,0 +1,433 @@
+---
+title: "Evidencia 1: Análisis de Brote Viral — SARS-CoV-2"
+author: "Sebastian Noriega Olavarrieta"
+date: "`r Sys.Date()`"
+output:
+  html_notebook:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+------------------------------------------------------------------------
+
+# PARTE 1: Documentación Científica del Virus
+
+## 1. Contexto del Brote
+
+El brote de **SARS-CoV-2** (Severe Acute Respiratory Syndrome Coronavirus 2) se detectó por primera vez en **Wuhan, provincia de Hubei, China**, en **diciembre de 2019**. Los primeros casos reportados correspondían a una neumonía de causa desconocida, muchos de ellos vinculados al Mercado de Mariscos de Huanan (WHO, 2020). El 31 de diciembre de 2019, China notificó a la Organización Mundial de la Salud (OMS), y el 11 de enero de 2020 se publicó la secuencia genómica completa del virus. El 11 de marzo de 2020, la OMS declaró la COVID-19 **pandemia global** (WHO, 2020).
+
+El impacto fue sin precedentes: sistemas de salud colapsados, confinamientos masivos en todo el mundo y una crisis económica de escala global. México registró su primer caso confirmado el **27 de febrero de 2020** en la Ciudad de México (SSA, 2020). En Nuevo León, el primer caso se confirmó el **6 de marzo de 2020** (Secretaría de Salud NL, 2020).
+
+**Referencias:**
+
+-   World Health Organization. (2020). *Novel Coronavirus (2019-nCoV): situation report – 1*. WHO. <https://www.who.int/docs/default-source/coronaviruse/situation-reports/20200121-sitrep-1-2019-ncov.pdf>
+-   Secretaría de Salud México (SSA). (2020). *Primer caso confirmado de COVID-19 en México*. <https://www.gob.mx/salud>
+
+------------------------------------------------------------------------
+
+## 2. Características Fenotípicas y Genotípicas
+
+### 2.1 Características Fenotípicas
+
+| Característica  | Descripción                                                                                                                     |
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------|
+| **Tamaño**      | 60–140 nm de diámetro                                                                                                           |
+| **Morfología**  | Esférica o pleomórfica con proyecciones en corona (spike)                                                                       |
+| **Composición** | Envoltura lipídica, proteínas S (spike), E (envelope), M (membrana) y N (nucleocápside)                                         |
+| **Tropismo**    | Principalmente células epiteliales del tracto respiratorio; también células cardíacas, renales y endoteliales vía receptor ACE2 |
+| **Estabilidad** | Hasta 72 h en superficies plásticas y de acero inoxidable; inactivado por calor \>56 °C y desinfectantes                        |
+
+La **proteína Spike (S)** es el principal determinante de tropismo: se une al receptor ACE2 (enzima convertidora de angiotensina 2) presente en células humanas. Esta unión es facilitada por la proteasa TMPRSS2 (Hoffmann et al., 2020).
+
+**Referencias:**
+
+-   Hoffmann, M., et al. (2020). SARS-CoV-2 Cell Entry Depends on ACE2 and TMPRSS2 and Is Blocked by a Clinically Proven Protease Inhibitor. *Cell*, 181(2), 271–280. <https://doi.org/10.1016/j.cell.2020.02.052>
+-   Bar-On, Y. M., et al. (2020). SARS-CoV-2 (COVID-19) by the numbers. *eLife*, 9, e57309.
+
+### 2.2 Características Genotípicas
+
+| Característica             | Descripción                                                                                       |
+|----------------------------|---------------------------------------------------------------------------------------------------|
+| **Tipo de genoma**         | ARN monocatenario de sentido positivo (+ssRNA)                                                    |
+| **Tamaño del genoma**      | \~29,900 pares de bases (el más grande entre coronavirus humanos)                                 |
+| **Número de genes**        | \~29 proteínas codificadas; \~14 ORFs principales                                                 |
+| **Genes estructurales**    | S (spike), E (envelope), M (membrana), N (nucleocápside)                                          |
+| **Genes no estructurales** | ORF1a/1b codifican 16 nsps (nsp1–16), incluyendo ARN polimerasa (nsp12) y helicasa (nsp13)        |
+| **Genes accesorios**       | ORF3a, ORF6, ORF7a, ORF7b, ORF8, ORF10                                                            |
+| **Tasa de mutación**       | \~10⁻⁶ sustituciones/sitio/ciclo de replicación (baja para ARN por actividad correctora de nsp14) |
+
+La familia taxonómica es: *Nidovirales \> Coronaviridae \> Betacoronavirus \> Sarbecovirus*. Su pariente más cercano conocido es el **RaTG13** de murciélagos (*Rhinolophus affinis*), con 96.2% de identidad genómica (Zhou et al., 2020).
+
+**Referencias:**
+
+-   Wu, F., et al. (2020). A new coronavirus associated with human respiratory disease in China. *Nature*, 579, 265–269. <https://doi.org/10.1038/s41586-020-2008-3>
+-   Zhou, P., et al. (2020). A pneumonia outbreak associated with a new coronavirus of probable bat origin. *Nature*, 579, 270–273.
+
+------------------------------------------------------------------------
+
+## 3. Enfermedad, Transmisión y Tratamientos
+
+### Enfermedad: COVID-19
+
+COVID-19 puede presentarse en espectro amplio:
+
+-   **Leve (80%):** fiebre, tos seca, fatiga, pérdida de olfato/gusto (anosmia/ageusia)
+-   **Moderado (15%):** neumonía, disnea
+-   **Severo-crítico (5%):** SDRA (Síndrome de Dificultad Respiratoria Aguda), fallo multiorgánico, muerte
+
+Complicaciones a largo plazo incluyen el llamado **COVID persistente (Long COVID)**, con síntomas neurológicos, cardíacos y fatiga crónica.
+
+### Vías de Transmisión
+
+1.  **Aerosoles y gotas respiratorias** (ruta principal) — especialmente en espacios cerrados
+2.  **Contacto con superficies contaminadas** (fómites, menor importancia)
+3.  **Transmisión vertical** (madre-hijo, rara)
+
+El número reproductivo básico (R₀) varía por variante: \~2.5 para la cepa original, \~5–7 para Delta, y hasta \~9–15 para Omicron (Liu & Rocklöv, 2022).
+
+### Tratamientos Existentes
+
+| Tratamiento                                          | Mecanismo                         | Estado                                                          |
+|------------------------------------------------------|-----------------------------------|-----------------------------------------------------------------|
+| **Vacunas (mRNA, vector viral, subunidad proteica)** | Inmunidad preventiva              | Ampliamente disponibles (Pfizer, Moderna, AstraZeneca, CanSino) |
+| **Nirmatrelvir/Ritonavir (Paxlovid)**                | Inhibidor de proteasa viral       | Aprobado por FDA/EMA para casos leves-moderados en riesgo       |
+| **Remdesivir**                                       | Inhibidor de ARN polimerasa viral | Uso hospitalario                                                |
+| **Dexametasona**                                     | Corticosteroide antiinflamatorio  | Reduce mortalidad en casos severos                              |
+| **Anticuerpos monoclonales**                         | Neutralización del spike          | Uso limitado por variantes resistentes                          |
+| **Molnupiravir**                                     | Mutagénesis letal del ARN viral   | Alternativa oral en adultos                                     |
+
+**Referencias:**
+
+-   Liu, Y., & Rocklöv, J. (2022). The effective reproductive number of the Omicron variant of SARS-CoV-2 is several times relative to Delta. *Journal of Travel Medicine*, 29(3). <https://doi.org/10.1093/jtm/taac037>
+-   WHO. (2023). *COVID-19 therapeutics*. <https://www.who.int/emergencies/diseases/novel-coronavirus-2019/treatments>
+
+------------------------------------------------------------------------
+
+## 4. Primera Variante del Virus
+
+La **cepa original de SARS-CoV-2** (linaje **A** según la nomenclatura de GISAID, o **B** según Pangolin) fue identificada en **Wuhan, China, en diciembre de 2019**. La secuencia de referencia depositada en NCBI es **NC_045512.2** (Wuhan-Hu-1), publicada el 5 de enero de 2020.
+
+La **primera "variante de preocupación" (VOC)** oficialmente designada por la OMS fue **Alpha (B.1.1.7)**, detectada en **Kent, Reino Unido, en septiembre de 2020** y reportada en diciembre de 2020. Presentaba 23 mutaciones respecto al linaje original, siendo clave la mutación **N501Y** en el dominio de unión al receptor de la proteína S, asociada a mayor transmisibilidad (\~50% más que la cepa original).
+
+**Referencia:**
+
+-   Rambaut, A., et al. (2020). Preliminary genomic characterisation of an emergent SARS-CoV-2 lineage in the UK defined by a novel set of spike mutations. *Virological*. <https://virological.org/t/preliminary-genomic-characterisation-of-an-emergent-sars-cov-2-lineage-in-the-uk/563>
+
+------------------------------------------------------------------------
+
+## 5. Variantes Documentadas
+
+La OMS clasifica las variantes en **VOC (Variantes de Preocupación)**, **VOI (Variantes de Interés)** y variantes bajo monitoreo.
+
+| Variante (Nombre OMS) | Linaje Pangolin | Lugar de Detección | Año  | Mutaciones Clave         |
+|-----------------------|-----------------|--------------------|------|--------------------------|
+| **Alpha**             | B.1.1.7         | Reino Unido        | 2020 | N501Y, 69/70del          |
+| **Beta**              | B.1.351         | Sudáfrica          | 2020 | K417N, E484K, N501Y      |
+| **Gamma**             | P.1             | Brasil             | 2020 | K417T, E484K, N501Y      |
+| **Delta**             | B.1.617.2       | India              | 2021 | L452R, T478K, P681R      |
+| **Omicron**           | B.1.1.529       | Sudáfrica/Botswana | 2021 | \>30 mutaciones en Spike |
+| **Omicron XBB.1.5**   | XBB.1.5         | EE.UU.             | 2022 | F486P adicional          |
+| **JN.1**              | JN.1            | Global             | 2023 | BA.2.86 + L455S          |
+| **KP.2 / FLiRT**      | KP.2            | Global             | 2024 | F456L, R346T             |
+
+Actualmente (2024–2025), la variante dominante globalmente pertenece al grupo **JN.1 y sus sublinajes** (KP.1, KP.2, KP.3), todos descendientes de Omicron BA.2.86.
+
+**Referencia:**
+
+-   WHO. (2024). *Tracking SARS-CoV-2 variants*. <https://www.who.int/activities/tracking-SARS-CoV-2-variants>
+-   Nextclade / GISAID. (2024). <https://clades.nextstrain.org/>
+
+------------------------------------------------------------------------
+
+## 6. Situación Epidemiológica Histórica
+
+### Mundial
+
+Según datos de la OMS y Our World in Data (al corte de enero 2025):
+
+-   **Casos confirmados totales:** \~774 millones (estimaciones reales \~2–3× superiores por subregistro)
+-   **Muertes confirmadas:** \~7.1 millones
+-   **Pico de muertes:** enero 2021 (cepa original + Alpha) y enero 2022 (Delta → Omicron)
+-   **Países más afectados:** EE.UU. (\~103M casos), India (\~45M), Francia (\~40M), Alemania (\~38M), Brasil (\~37M)
+
+### México (Nacional)
+
+Fuente: Secretaría de Salud / DGE (al corte de enero 2025):
+
+-   **Casos confirmados:** \~7.6 millones
+-   **Muertes confirmadas:** \~334,000 (una de las cifras absolutas más altas de LATAM)
+-   **Exceso de mortalidad estimado:** \~800,000–1,000,000 (INEGI, IHME)
+-   **Primer caso:** 27 de febrero de 2020 (Ciudad de México)
+-   **Pico:** diciembre 2021 – enero 2022 (Omicron)
+
+### Nuevo León (Estatal)
+
+-   **Casos confirmados:** \~422,000
+-   **Muertes:** \~13,500
+-   **Primer caso:** 6 de marzo de 2020
+-   **Monterrey** concentró la mayor densidad de casos en el estado
+
+### Nivel Municipal (Monterrey)
+
+-   Monterrey, San Pedro Garza García y Guadalupe fueron los municipios con mayor número de casos en NL
+-   San Pedro Garza García reportó tasas de detección altas por mayor capacidad de pruebas
+
+**Referencias:**
+
+-   Our World in Data. (2024). *COVID-19 Data Explorer*. <https://ourworldindata.org/coronavirus>
+-   INEGI. (2022). *Estadísticas de exceso de mortalidad*. <https://www.inegi.org.mx>
+-   Dirección General de Epidemiología SSA. (2024). *COVID-19 México*. <https://covid19.sinave.gob.mx/>
+
+------------------------------------------------------------------------
+
+# PARTE 2: Análisis Exploratorio en R
+
+## Instalación y carga de paquetes
+
+```{r install-packages, eval=FALSE}
+# Ejecutar solo si no están instalados
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+BiocManager::install(c("Biostrings", "seqinr", "rentrez"))
+install.packages(c("ggplot2", "dplyr", "tidyr", "ggpubr", "knitr"))
+```
+
+```{r load-packages}
+library(Biostrings)   # Manejo de secuencias biológicas
+library(seqinr)       # Análisis de secuencias (GC content, etc.)
+library(rentrez)      # Acceso a NCBI Entrez API
+library(ggplot2)      # Visualización
+library(dplyr)        # Manipulación de datos
+library(tidyr)        # Organización de datos
+library(ggpubr)       # Gráficas combinadas
+library(knitr)        # Tablas formateadas
+```
+
+------------------------------------------------------------------------
+
+## 1. Obtención de 10 secuencias de variantes de SARS-CoV-2 desde NCBI
+
+Se seleccionaron 10 secuencias genómicas completas representando las principales variantes de preocupación (VOC) de SARS-CoV-2, obtenidas de la base de datos **NCBI GenBank**.
+
+```{r fetch-sequences}
+# Accession numbers de 10 variantes representativas de SARS-CoV-2
+accessions <- c(
+  "NC_045512",   # Wuhan-Hu-1 (Referencia original)
+  "MZ344997",    # Alpha (B.1.1.7) - Reino Unido
+  "MZ433432",    # Beta (B.1.351) - Sudáfrica
+  "MZ477773",    # Gamma (P.1) - Brasil
+  "MZ359841",    # Delta (B.1.617.2) - India
+  "OL672836",    # Omicron BA.1 - Sudáfrica
+  "OP093695",    # Omicron BA.2
+  "OP457109",    # Omicron BA.4
+  "OP093696",    # Omicron BA.5
+  "OQ154430"     # Omicron XBB.1.5 - EE.UU.
+)
+
+variante_names <- c(
+  "Wuhan (Original)",
+  "Alpha (B.1.1.7)",
+  "Beta (B.1.351)",
+  "Gamma (P.1)",
+  "Delta (B.1.617.2)",
+  "Omicron BA.1",
+  "Omicron BA.2",
+  "Omicron BA.4",
+  "Omicron BA.5",
+  "Omicron XBB.1.5"
+)
+
+# Descargar secuencias desde NCBI en formato FASTA
+cat("Descargando secuencias desde NCBI...\n")
+secuencias_raw <- entrez_fetch(
+  db = "nucleotide",
+  id = accessions,
+  rettype = "fasta",
+  retmode = "text"
+)
+
+# Guardar en archivo FASTA local
+writeLines(secuencias_raw, "sars_cov2_variants.fasta")
+cat("Secuencias guardadas en: sars_cov2_variants.fasta\n")
+
+# Leer con Biostrings
+seqs_bs <- readDNAStringSet("sars_cov2_variants.fasta")
+cat("Número de secuencias descargadas:", length(seqs_bs), "\n")
+```
+
+------------------------------------------------------------------------
+
+## 2. Cálculo de la longitud de cada secuencia
+
+```{r sequence-lengths}
+# Calcular longitudes
+lengths_vec <- width(seqs_bs)
+
+# Crear dataframe de resultados
+df_seqs <- data.frame(
+  Accession   = accessions,
+  Variante    = variante_names,
+  Longitud_bp = lengths_vec,
+  stringsAsFactors = FALSE
+)
+
+kable(df_seqs[, c("Variante", "Accession", "Longitud_bp")],
+      caption = "Tabla 1. Longitud de secuencias genómicas de SARS-CoV-2 por variante",
+      col.names = c("Variante", "Acceso NCBI", "Longitud (pb)"),
+      align = "lll")
+```
+
+------------------------------------------------------------------------
+
+## 3. Cálculo del %GC de cada variante
+
+```{r gc-content}
+# Función para calcular %GC con Biostrings
+calc_gc <- function(seq) {
+  freq <- letterFrequency(seq, letters = c("G", "C", "A", "T"), as.prob = FALSE)
+  gc <- (freq["G"] + freq["C"]) / sum(freq) * 100
+  return(round(gc, 4))
+}
+
+# Aplicar a cada secuencia
+gc_values <- sapply(seqs_bs, calc_gc)
+
+# Agregar al dataframe
+df_seqs$GC_percent <- gc_values
+
+# Calcular también composición nucleotídica
+nuc_freq <- t(sapply(seqs_bs, function(seq) {
+  freq <- letterFrequency(seq, letters = c("A", "T", "G", "C"), as.prob = TRUE) * 100
+  return(freq)
+}))
+colnames(nuc_freq) <- c("A%", "T%", "G%", "C%")
+
+df_seqs <- cbind(df_seqs, round(nuc_freq, 3))
+
+kable(df_seqs[, c("Variante", "GC_percent", "A%", "T%", "G%", "C%")],
+      caption = "Tabla 2. Porcentaje GC y composición nucleotídica por variante de SARS-CoV-2",
+      col.names = c("Variante", "%GC", "%A", "%T", "%G", "%C"),
+      align = "lccccc")
+```
+
+------------------------------------------------------------------------
+
+## 4. Generación de Gráficas Comparativas
+
+### 4.1 Gráfica: Longitud de secuencia por variante
+
+```{r plot-lengths, fig.width=10, fig.height=5}
+# Ordenar por longitud
+df_seqs$Variante_f <- factor(df_seqs$Variante,
+                              levels = df_seqs$Variante[order(df_seqs$Longitud_bp)])
+
+p1 <- ggplot(df_seqs, aes(x = Variante_f, y = Longitud_bp, fill = Variante_f)) +
+  geom_col(color = "black", width = 0.75) +
+  geom_text(aes(label = format(Longitud_bp, big.mark = ",")),
+            hjust = -0.1, size = 3.2, fontface = "bold") +
+  scale_fill_viridis_d(option = "plasma", guide = "none") +
+  scale_y_continuous(limits = c(0, max(df_seqs$Longitud_bp) * 1.12),
+                     labels = scales::comma) +
+  coord_flip() +
+  labs(title = "Figura 1. Longitud del genoma de SARS-CoV-2 por variante",
+       subtitle = "Secuencias completas obtenidas de NCBI GenBank",
+       x = "Variante", y = "Longitud (pares de bases)") +
+  theme_bw(base_size = 12) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5, color = "gray40"))
+
+print(p1)
+```
+
+### 4.2 Gráfica: Composición de nucleótidos por variante
+
+```{r plot-nucleotides, fig.width=11, fig.height=6}
+# Transformar a formato largo
+df_nuc_long <- df_seqs %>%
+  select(Variante, `A%`, `T%`, `G%`, `C%`) %>%
+  pivot_longer(cols = c(`A%`, `T%`, `G%`, `C%`),
+               names_to = "Nucleotido",
+               values_to = "Porcentaje") %>%
+  mutate(Nucleotido = gsub("%", "", Nucleotido))
+
+p2 <- ggplot(df_nuc_long, aes(x = Variante, y = Porcentaje, fill = Nucleotido)) +
+  geom_col(position = "stack", color = "black", linewidth = 0.3) +
+  scale_fill_manual(values = c("A" = "#E63946", "T" = "#457B9D",
+                                "G" = "#2A9D8F", "C" = "#E9C46A"),
+                    name = "Nucleótido") +
+  labs(title = "Figura 2. Composición de nucleótidos por variante de SARS-CoV-2",
+       subtitle = "Frecuencia relativa (%) de A, T, G y C en el genoma completo",
+       x = "Variante", y = "Porcentaje (%)") +
+  theme_bw(base_size = 11) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 9),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5, color = "gray40"),
+        legend.position = "right")
+
+print(p2)
+```
+
+### 4.3 Gráfica: Porcentaje GC por variante
+
+```{r plot-gc, fig.width=10, fig.height=5}
+p3 <- ggplot(df_seqs, aes(x = reorder(Variante, GC_percent), y = GC_percent, fill = GC_percent)) +
+  geom_col(color = "black", width = 0.75) +
+  geom_text(aes(label = paste0(round(GC_percent, 2), "%")),
+            hjust = -0.1, size = 3.4, fontface = "bold") +
+  scale_fill_gradient(low = "#a8dadc", high = "#1d3557",
+                       name = "%GC", guide = "none") +
+  scale_y_continuous(limits = c(0, max(df_seqs$GC_percent) * 1.12)) +
+  geom_hline(yintercept = mean(df_seqs$GC_percent), linetype = "dashed",
+             color = "red", linewidth = 0.8) +
+  annotate("text", x = 1.5, y = mean(df_seqs$GC_percent) + 0.3,
+           label = paste("Media:", round(mean(df_seqs$GC_percent), 2), "%"),
+           color = "red", size = 3.5) +
+  coord_flip() +
+  labs(title = "Figura 3. Porcentaje GC por variante de SARS-CoV-2",
+       subtitle = "La línea roja indica el promedio entre las 10 variantes",
+       x = "Variante", y = "% GC") +
+  theme_bw(base_size = 12) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5, color = "gray40"))
+
+print(p3)
+```
+
+------------------------------------------------------------------------
+
+## 5. Interpretación de las Gráficas
+
+### Figura 1 — Longitud del genoma
+
+Las 10 secuencias de SARS-CoV-2 analizadas presentan genomas de longitud similar, oscilando aproximadamente entre **29,700 y 30,000 pares de bases (pb)**, lo cual es consistente con el tamaño conocido del genoma de los betacoronavirus (\~29.9 kb). Las variantes más recientes, como Omicron XBB.1.5 y las subvariantes BA.4/BA.5, muestran longitudes prácticamente idénticas a la cepa original Wuhan-Hu-1 (NC_045512), lo que confirma que las mutaciones responsables de los cambios fenotípicos entre variantes son puntiformes (SNPs) o pequeñas inserciones/deleciones, sin alteraciones drásticas en el tamaño total del genoma. Las pequeñas diferencias observadas en la longitud pueden atribuirse a variaciones en el proceso de secuenciación y ensamblaje, o a inserciones/deleciones menores en regiones no codificantes.
+
+### Figura 2 — Composición nucleotídica
+
+La composición de nucleótidos es altamente conservada entre todas las variantes analizadas. Se observa un predominio claro de **Adenina (A) \~29–30%** y **Uracilo/Timina (T) \~32–33%** sobre las bases **Guanina (G) \~19–20%** y **Citosina (C) \~18–19%**. Este patrón de baja proporción GC y alta proporción AT es característico de los coronavirus y refleja presiones evolutivas relacionadas con la estabilidad del ARN, la eficiencia de traducción en células hospederas y la evasión de mecanismos inmunes como el interferón. La similitud entre variantes en composición nucleotídica confirma que la evolución del SARS-CoV-2 ha sido conservadora a nivel global del genoma, concentrándose en mutaciones específicas de sitios funcionales como el Receptor Binding Domain (RBD) de la proteína S.
+
+### Figura 3 — Porcentaje GC
+
+El contenido GC de todas las variantes se mantiene en un rango estrecho de aproximadamente **37.5%–38.0%**, con una media cercana a **37.8%**. Este bajo contenido GC (por debajo del 50%) es una característica molecular distintiva de los betacoronavirus. La variante **Wuhan (cepa original)** y las variantes más tempranas (Alpha, Beta, Gamma) muestran valores de %GC marginalmente similares a los de Omicron y sus sublinajes. La estabilidad del %GC a lo largo de la evolución del virus sugiere que este parámetro está bajo fuerte presión selectiva y es un marcador molecular robusto de identidad taxonómica. Diferencias mayores en %GC en otras especies virales suelen reflejar adaptaciones a diferentes nichos ecológicos o hospederos, lo que en SARS-CoV-2 no se ha observado hasta la fecha.
+
+------------------------------------------------------------------------
+
+# Referencias de Paquetes de R
+
+```{r citations}
+citation("Biostrings")
+citation("seqinr")
+citation("rentrez")
+citation("ggplot2")
+citation("dplyr")
+```
+
+------------------------------------------------------------------------
+
+*Documento generado con R Markdown. Tecnológico de Monterrey — Campus Monterrey.* *Análisis bioinformático de SARS-CoV-2 \| Evidencia 1 \| `r format(Sys.Date(), "%B %Y")`*
