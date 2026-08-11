@@ -1,0 +1,141 @@
+---
+title: "Act 4: Phylogenetic Trees in R"
+author: "Sebastian Noriega Olavarrieta"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## 1. Load Libraries
+
+```{r libraries}
+library(Biostrings)
+library(seqinr)
+library(ape)
+library(DECIPHER)
+library(ggtree)
+```
+
+## 2. Get Sequences from NCBI
+
+```{r fetch-sequences}
+virus <- c("JX869059", "AY508724", "MN908947", "AY390556",
+           "AY278489", "MN985325", "AY485277", "MT292571")
+
+# Fetch sequences from NCBI Nucleotide
+sequences <- read.GenBank(virus)
+sequences
+```
+
+## 3. Save Sequences to a Single FASTA File
+
+```{r save-fasta}
+write.dna(sequences, file = "virus_sequences.fasta", format = "fasta")
+cat("FASTA file saved as 'virus_sequences.fasta'\n")
+```
+
+## 4. Load into DNAStringSet and Report Name & Length
+
+```{r dna-stringset}
+dna_sequences <- readDNAStringSet("virus_sequences.fasta")
+
+# Report name and length of each sequence
+seq_info <- data.frame(
+  Name   = names(dna_sequences),
+  Length = width(dna_sequences)
+)
+
+print(seq_info)
+```
+
+## 5. Multiple Alignment with DECIPHER & Save Result
+
+```{r alignment}
+# Perform multiple alignment
+aligned <- AlignSeqs(dna_sequences)
+
+# Save aligned sequences to a new FASTA file
+writeXStringSet(aligned, filepath = "virus_aligned.fasta")
+cat("Aligned sequences saved as 'virus_aligned.fasta'\n")
+```
+
+## 6. Create Distance Matrix with seqinr
+
+```{r distance-matrix}
+# Read aligned FASTA with seqinr
+aligned_seqinr <- read.alignment("virus_aligned.fasta", format = "fasta")
+
+# Compute distance matrix
+dist_matrix <- dist.alignment(aligned_seqinr, matrix = "similarity")
+dist_matrix
+```
+
+## 7. Visualize the Distance Matrix
+
+```{r heatmap}
+# Convert to regular matrix for visualization
+dist_mat <- as.matrix(dist_matrix)
+
+# Heatmap
+heatmap(dist_mat,
+        main    = "Distance Matrix — Coronavirus Sequences",
+        xlab    = "Virus",
+        ylab    = "Virus",
+        col     = heat.colors(256),
+        margins = c(10, 10))
+```
+
+## 8. Create the Phylogenetic Tree (ape)
+
+```{r build-tree}
+# Build Neighbor-Joining tree from distance matrix
+nj_tree <- nj(dist_matrix)
+nj_tree
+```
+
+## 9. Plot with ape
+
+```{r plot-ape}
+plot(nj_tree,
+     main       = "Phylogenetic Tree — Coronaviruses (ape)",
+     type       = "phylogram",
+     cex        = 0.7,
+     tip.color  = "steelblue",
+     edge.color = "gray40",
+     edge.width = 1.5)
+
+add.scale.bar(length = 0.05, col = "black", lwd = 2)
+title(sub = "NJ Tree | Kimura Distance | DECIPHER Alignment", cex.sub = 0.7)
+```
+
+## 10. Plot with ggtree
+
+```{r plot-ggtree}
+ggtree(nj_tree, color = "gray30", size = 0.8) +
+  geom_tiplab(size = 3, color = "steelblue4", fontface = "bold") +
+  geom_treescale(fontsize = 3, linesize = 0.5, offset = 0.002) +
+  theme_tree2() +
+  labs(
+    title    = "Phylogenetic Tree — Coronaviruses (ggtree)",
+    subtitle = "SARS-CoV | SARS-CoV-2 | MERS-CoV variants",
+    caption  = "NJ Tree · DECIPHER alignment · seqinr distance"
+  ) +
+  theme(
+    plot.title    = element_text(size = 14, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 10, hjust = 0.5, color = "gray50"),
+    plot.caption  = element_text(size = 8,  color = "gray60")
+  )
+```
+
+## 11. Citations
+
+```{r citations}
+citation("Biostrings")
+citation("seqinr")
+citation("ape")
+citation("DECIPHER")
+citation("ggtree")
+```

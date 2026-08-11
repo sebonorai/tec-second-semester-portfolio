@@ -1,0 +1,208 @@
+---
+title: "Act3: Database Exercises with R"
+author: "Sebastian Noriega Olavarrieta"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+---
+
+## Packages
+
+```{r libraries}
+library(rentrez)
+library(seqinr)
+library(Biostrings)
+```
+
+---
+
+## 1. Obtain sequences from NCBI and save to a single FASTA file
+
+We use `rentrez` to search and fetch the complete genome sequences of the 5 viruses from NCBI Nucleotide.
+
+```{r fetch-sequences}
+# Accession numbers for complete genomes
+accessions <- c(
+  Zika          = "NC_012532",   # Zika virus, complete genome
+  SARS          = "NC_004718",   # SARS coronavirus, complete genome
+  COVID19       = "NC_045512",   # Wuhan-Hu-1 (SARS-CoV-2), complete genome
+  MERS          = "NC_019843",   # MERS coronavirus, complete genome
+  Dengue1       = "NC_001477"    # Dengue virus 1, complete genome
+)
+
+# Fetch sequences in FASTA format
+seqs_fasta <- entrez_fetch(
+  db       = "nucleotide",
+  id       = accessions,
+  rettype  = "fasta",
+  retmode  = "text"
+)
+
+# Save all 5 sequences into a single FASTA file
+writeLines(seqs_fasta, "virus_sequences.fasta")
+cat("FASTA file saved: virus_sequences.fasta\n")
+```
+
+---
+
+## 2. Size of each sequence
+
+```{r sequence-size}
+# Read the FASTA file with seqinr
+seqs <- read.fasta("virus_sequences.fasta", seqtype = "DNA", as.string = FALSE)
+
+# Rename for clarity
+names(seqs) <- c("Zika", "SARS-CoV-1", "SARS-CoV-2 (Wuhan-Hu-1)", "MERS-CoV", "Dengue 1")
+
+# Get lengths
+sizes <- sapply(seqs, length)
+size_df <- data.frame(
+  Virus  = names(sizes),
+  Length = sizes,
+  row.names = NULL
+)
+
+knitr::kable(size_df, caption = "Sequence length (nucleotides) of each virus")
+```
+
+---
+
+## 3. Nucleotide composition of each sequence
+
+```{r nucleotide-composition}
+# Compute base frequencies
+comp_list <- lapply(seqs, table)
+comp_df <- do.call(rbind, lapply(names(comp_list), function(v) {
+  tb <- comp_list[[v]]
+  bases <- c("a", "c", "g", "t")
+  counts <- setNames(as.integer(tb[bases]), toupper(bases))
+  counts[is.na(counts)] <- 0
+  data.frame(Virus = v, t(counts))
+}))
+
+knitr::kable(comp_df, row.names = FALSE,
+             caption = "Nucleotide composition (raw counts) of each virus")
+```
+
+---
+
+## 4. GC content of each virus
+
+```{r gc-content}
+gc_values <- sapply(seqs, function(s) {
+  tb <- table(s)
+  g  <- ifelse("g" %in% names(tb), tb["g"], 0)
+  c_ <- ifelse("c" %in% names(tb), tb["c"], 0)
+  round((g + c_) / length(s) * 100, 2)
+})
+
+gc_df <- data.frame(
+  Virus      = names(gc_values),
+  GC_content = paste0(gc_values, "%"),
+  row.names  = NULL
+)
+
+knitr::kable(gc_df, caption = "GC content (%) of each virus")
+```
+
+---
+
+## 5. Summary plot — nucleotide composition comparison
+
+```{r composition-plot, fig.width=9, fig.height=5}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+
+# Reshape to long format
+comp_long <- comp_df %>%
+  pivot_longer(cols = c("A", "C", "G", "T"),
+               names_to  = "Nucleotide",
+               values_to = "Count") %>%
+  group_by(Virus) %>%
+  mutate(Proportion = Count / sum(Count) * 100)
+
+ggplot(comp_long, aes(x = Virus, y = Proportion, fill = Nucleotide)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  scale_fill_manual(values = c(A = "#4CAF50", C = "#2196F3",
+                               G = "#FF9800", T = "#F44336")) +
+  labs(
+    title    = "Nucleotide Composition Comparison",
+    subtitle = "5 complete virus genomes",
+    x        = NULL,
+    y        = "Proportion (%)",
+    fill     = "Nucleotide"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    axis.text.x      = element_text(angle = 20, hjust = 1),
+    plot.title       = element_text(face = "bold"),
+    legend.position  = "right"
+  )
+```
+
+---
+
+## H1N1 Influenza — Mexico 2009 (8 segments)
+
+Using the NCBI Influenza Virus Database, we retrieve all 8 genomic segments of the H1N1 strain that appeared in Mexico in 2009.
+
+```{r h1n1-segments}
+# Accession numbers for the 8 segments of A/Mexico/2009 H1N1
+# Source: NCBI Influenza Virus Database
+h1n1_acc <- c(
+  PB2 = "GQ117044",   # Segment 1 - PB2
+  PB1 = "GQ117045",   # Segment 2 - PB1
+  PA  = "GQ117046",   # Segment 3 - PA
+  HA  = "GQ117047",   # Segment 4 - HA (hemagglutinin)
+  NP  = "GQ117048",   # Segment 5 - NP
+  NA_ = "GQ117049",   # Segment 6 - NA (neuraminidase)
+  M   = "GQ117050",   # Segment 7 - M (M1/M2)
+  NS  = "GQ117051"    # Segment 8 - NS (NS1/NEP)
+)
+
+# Fetch all 8 segments
+h1n1_fasta <- entrez_fetch(
+  db      = "nucleotide",
+  id      = h1n1_acc,
+  rettype = "fasta",
+  retmode = "text"
+)
+
+writeLines(h1n1_fasta, "h1n1_mexico_2009_segments.fasta")
+cat("H1N1 FASTA file saved: h1n1_mexico_2009_segments.fasta\n")
+
+# Read and show segment sizes
+h1n1_seqs <- read.fasta("h1n1_mexico_2009_segments.fasta",
+                         seqtype = "DNA", as.string = FALSE)
+names(h1n1_seqs) <- names(h1n1_acc)
+
+h1n1_sizes <- sapply(h1n1_seqs, length)
+h1n1_df <- data.frame(
+  Segment   = names(h1n1_sizes),
+  Accession = h1n1_acc,
+  Length    = h1n1_sizes,
+  row.names = NULL
+)
+
+knitr::kable(h1n1_df, caption = "H1N1 Mexico 2009 — 8 genomic segments")
+```
+
+---
+
+## Package Citations
+
+```{r citations}
+citation("rentrez")
+citation("seqinr")
+citation("Biostrings")
+```
