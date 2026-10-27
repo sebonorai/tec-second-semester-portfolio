@@ -12,6 +12,7 @@ This repository collects the work where I actually wrote code. Each folder has i
 |---|---|---|
 | [`cpp-marketplace/`](./cpp-marketplace) | TC1030 — Object-Oriented Programming | A marketplace catalog system in C++ built around an abstract base class, three derived product types, operator overloading, and exception handling. |
 | [`matlab-numerical/`](./matlab-numerical) | Numerical Methods | Root-finding and regression implementations in MATLAB. |
+| [`matlab-electromagnetic-modeling/`](./matlab-electromagnetic-modeling) | Computational Modeling of Electrical / Electromagnetic Systems | Team projects in MATLAB: electric field and charged-particle trajectories from two line charges, and magnetic braking of a falling magnet (Biot–Savart, RK4, Faraday–Lenz). |
 | [`r-bioinformatics/`](./r-bioinformatics) | Bioinformatics | Sequence analysis and phylogenetics in R and R Markdown. |
 
 ---
