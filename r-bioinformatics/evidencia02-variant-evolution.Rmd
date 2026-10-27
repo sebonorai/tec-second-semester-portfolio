@@ -326,7 +326,7 @@ ggplot(df_var, aes(x = Position, y = Variability)) +
 region1_seqs <- subseq(seqs_aligned, start = region1_start, end = region1_end)
 
 # Save FASTA for BLAST
-writeXStringSet(region1_seqs, "A00840922_Ev2_Region1.fasta")
+writeXStringSet(region1_seqs, "Ev2_Region1.fasta")
 
 ggmsa(region1_seqs,
       start = 80, end = 140,
@@ -346,7 +346,7 @@ ggmsa(region1_seqs,
 region2_seqs <- subseq(seqs_aligned, start = region2_start, end = region2_end)
 
 # Save FASTA for BLAST
-writeXStringSet(region2_seqs, "A00840922_Ev2_Region2.fasta")
+writeXStringSet(region2_seqs, "Ev2_Region2.fasta")
 
 ggmsa(region2_seqs,
       start = 80, end = 140,
@@ -367,7 +367,7 @@ ggmsa(region2_seqs,
 ```{r blast-region1}
 # Table with first 5 BLAST results for Region 1
 # Data obtained manually from NCBI BLAST (https://blast.ncbi.nlm.nih.gov/)
-# File A00840922_Ev2_Region1.fasta was submitted to blastn
+# File Ev2_Region1.fasta was submitted to blastn
 
 blast_r1 <- data.frame(
   Sequence_Name = c(
@@ -389,7 +389,7 @@ blast_r1 <- data.frame(
 )
 
 kable(blast_r1,
-      caption = "Table 3. Top 5 BLAST results for Region 1 (A00840922_Ev2_Region1.fasta)",
+      caption = "Table 3. Top 5 BLAST results for Region 1 (Ev2_Region1.fasta)",
       col.names = c("Sequence Name", "Source Species / Country", "% Identity with Query"),
       align = "llc")
 ```
@@ -417,7 +417,7 @@ blast_r2 <- data.frame(
 )
 
 kable(blast_r2,
-      caption = "Table 4. Top 5 BLAST results for Region 2 (A00840922_Ev2_Region2.fasta)",
+      caption = "Table 4. Top 5 BLAST results for Region 2 (Ev2_Region2.fasta)",
       col.names = c("Sequence Name", "Source Species / Country", "% Identity with Query"),
       align = "llc")
 ```
@@ -540,5 +540,5 @@ citation("rentrez")
 ---
 
 *Evidence 2 — Bioinformatic Analysis of SARS-CoV-2*
-*Tecnológico de Monterrey, Campus Monterrey | Sebastian Noriega Olavarrieta | A00840922*
+*Tecnológico de Monterrey, Campus Monterrey | Sebastian Noriega Olavarrieta*
 *`r format(Sys.Date(), "%B %Y")`*
