@@ -204,7 +204,7 @@ for i = 1:numel(X)
     for j=1:max(2,numel(qny)) %para todas las cargas positivas
         r1=[X(i)-q2(1,j),Y(i)-q2(2,j)]; %distancia en X de punto de calculo a carga positiva numero j, distancia en Y del punto de calculo a carga positiva numero j
         R1=norm(r1); %teorema de Pitágoras para longitud de la hipotenusa del triangulo de los numeros anteriores
-        TempPotencialElectrico=(k.*(qn)./R1); %Contribución de carga positiva J al campo electrico total del punto I
+        TempPotencialElectrico=(k.*(-qn)./R1); %Contribución de carga positiva J al campo electrico total del punto I
         PotencialElectrico=PotencialElectrico+TempPotencialElectrico; %Sumación
     end
     PotencialElectricoX(i)=PotencialElectrico(1); %guardando vector X del campo 
