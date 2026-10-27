@@ -540,5 +540,5 @@ citation("rentrez")
 ---
 
 *Evidence 2 — Bioinformatic Analysis of SARS-CoV-2*
-*Tecnológico de Monterrey, Campus Monterrey | Sebastian Noriega Olavarrieta | *
+*Tecnológico de Monterrey, Campus Monterrey | Sebastian Noriega Olavarrieta*
 *`r format(Sys.Date(), "%B %Y")`*
