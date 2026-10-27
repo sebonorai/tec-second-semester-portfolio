@@ -1,6 +1,6 @@
 # Electromagnetic Modeling — MATLAB
 
-Two MATLAB simulations from the computational modeling courses of the second semester (electrical systems, then electromagnetic systems). Both were team projects, completed in groups of five students and submitted with a joint written report that is not included here. The scripts are published as they were submitted.
+Two MATLAB simulations from the computational modeling courses of the second semester (electrical systems, then electromagnetic systems). Both were team projects, completed in groups of five students and submitted with a joint written report that is not included here. The scripts are published as they were submitted, with one correction: in `electric_field_particles.m` the negative line now contributes negative potential to the potential map (`-qn` on line 207).
 
 ## Files
 
