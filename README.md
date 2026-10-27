@@ -30,7 +30,7 @@ Covers: abstract classes and pure virtual methods, inheritance hierarchies, runt
 
 Coursework that produced written deliverables rather than code, included here for context:
 
-- **Data Science** — regression analysis on a personal activity dataset following the CRISP-DM methodology (R² = 0.86)
+- **Data Science** — regression analysis on a personal activity dataset following the CRISP-DM methodology
 - **Electromagnetism** — problem sets and a regression report on electromagnetic force measurements
 - **Intermediate Mathematical Modeling** — differential equations, double and triple integrals
 - **Data analysis in Excel** — dashboard built from the EU Superstore dataset
